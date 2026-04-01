@@ -929,7 +929,7 @@ footer {
     <a href="#zonas">Zonas</a>
     <a href="#propietarios">Propietarios</a>
   </div>
-  <button class="nav-btn" onclick="scrollTo('waitlist')">Unirse a la lista</button>
+  <button class="nav-btn" onclick="goTo('waitlist')">Unirse a la lista</button>
 </nav>
 
 <!-- ======================== HERO ======================== -->
@@ -960,8 +960,8 @@ footer {
       Conectamos propietarios de plazas de garaje con conductores en el Gran Bilbao. Sin intermediarios, sin colas, desde el móvil.
     </p>
     <div class="hero-cta-row">
-      <button class="btn-hero-primary" onclick="scrollTo('quick-form')">Reservar mi plaza</button>
-      <button class="btn-hero-ghost" onclick="scrollTo('como-funciona')">
+      <button class="btn-hero-primary" onclick="goTo('quick-form')">Reservar mi plaza</button>
+      <button class="btn-hero-ghost" onclick="goTo('como-funciona')">
         Ver cómo funciona
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1177,7 +1177,7 @@ footer {
         Pago seguro y gestión 100% desde el móvil
       </li>
     </ul>
-    <button class="aud-btn" onclick="scrollTo('waitlist')">Quiero aparcar — Registro</button>
+    <button class="aud-btn" onclick="goTo('waitlist')">Quiero aparcar — Registro</button>
   </div>
 
   <div class="aud-card light-card reveal" id="propietarios">
@@ -1201,7 +1201,7 @@ footer {
         Hasta 300€/mes de ingresos adicionales
       </li>
     </ul>
-    <button class="aud-btn" onclick="scrollTo('waitlist')">Publicar mi plaza — Registro</button>
+    <button class="aud-btn" onclick="goTo('waitlist')">Publicar mi plaza — Registro</button>
   </div>
 </div>
 
@@ -1597,7 +1597,7 @@ window.addEventListener('scroll', () => {
 });
 
 /* ===== SCROLL TO ===== */
-function scrollTo(id) {
+function goTo(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -1710,8 +1710,8 @@ async function submitDriver() {
   const end   = document.getElementById('dp-end').value;
   const dIds  = ['l','m','x','j','v','s','d'];
   const vals  = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
-  const days  = dIds.filter((_,i)=>document.getElementById(`dl-${dIds[i]}`)?.checked)
-                    .map((_,i)=>vals[i]).join(', ');
+  const days  = dIds.map((d,i) => document.getElementById(`dl-${d}`)?.checked ? vals[i] : null)
+                    .filter(Boolean).join(', ');
 
   if (!name || !email || !phone || !zone) { toast('Completa los campos obligatorios', 'err'); return; }
 
@@ -1747,8 +1747,8 @@ async function submitOwner() {
   const note  = document.getElementById('op-note').value.trim();
   const dIds  = ['l','m','x','j','v','s','d'];
   const vals  = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
-  const days  = dIds.filter(d=>document.getElementById(`ol-${d}`)?.checked)
-                    .map((_,i)=>vals[i]).join(', ');
+  const days  = dIds.map((d,i) => document.getElementById(`ol-${d}`)?.checked ? vals[i] : null)
+                    .filter(Boolean).join(', ');
 
   if (!name || !email || !phone || !zone) { toast('Completa los campos obligatorios', 'err'); return; }
 
